@@ -149,10 +149,18 @@ def render(df: pd.DataFrame, is_sample: bool) -> None:
         "Go dedicated": "badge-dedi",
     }
     st.markdown(
-        f'<span class="{badge_class[decision]}">{decision}</span>',
+        f'<div style="text-align: center; margin: 20px 0;"><span class="{badge_class[decision]}">{decision}</span></div>',
         unsafe_allow_html=True,
     )
-    st.markdown(f"**{reason}**")
+    st.markdown(f"> **{reason}**")
+    
+    # Dynamic interactions based on decision
+    if st.session_state.get('last_decision') != decision:
+        st.session_state['last_decision'] = decision
+        if decision == "Keep nesting":
+            st.balloons()
+        elif decision == "Go dedicated":
+            st.snow()
 
     # ── Sensitivity chart ────────────────────────────────────────────────
     st.divider()
